@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>113306030_HW6_1A2B</title>
+</head>
+<body>
+    <h1>113306030_HW6_1A2B</h1>
+    <input type="text" id="num" name="num" placeholder="請輸入4個不重複的數字">
+    <input type="button" value="猜啊" onclick="guess()">
+    <h4>紀錄</h4>
+    <div id="showRecord"></div>
+    <script>
+        // 產生 4 個不重複的隨機數字
+        let numArray = [];
+        while (numArray.length < 4) {
+            let randNum = Math.floor(Math.random() * 10);
+            if (!numArray.includes(randNum)) {
+                numArray.push(randNum);
+            }
+        }
+        console.log("目標數字：", numArray); // Debug 用
+
+        let chance = 0;
+
+        function guess() {
+            let guessNum = document.getElementById("num").value;
+            if (guessNum.length !== 4 || isNaN(guessNum)) {
+                alert("請輸入 4 個不重複的數字!");
+                return;
+            }
+
+            // 將輸入轉換為陣列並檢查重複
+            let guessArray = guessNum.split("").map(Number);
+            if (new Set(guessArray).size !== 4) {
+                alert("請輸入 4 個**不重複**的數字!");
+                return;
+            }
+
+            let a = 0, b = 0;
+
+            // 比對數字
+            for (let i = 0; i < 4; i++) {
+                if (guessArray[i] === numArray[i]) {
+                    a++;
+                } else if (numArray.includes(guessArray[i])) {
+                    b++;
+                }
+            }
+
+            chance++;
+            let record = `第 ${chance} 次：${guessNum} -> ${a}A${b}B`;
+            let showRecord = document.getElementById("showRecord");
+
+            if (a === 4) {
+                alert("正解! 恭喜你!");
+                showRecord.innerHTML += `<p>${record}</p>`;
+            } else {
+                showRecord.innerHTML += `<p>${record}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
